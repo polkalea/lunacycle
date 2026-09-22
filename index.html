@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#171321">
+<title>LunaCycle 🌙</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+  background: linear-gradient(160deg, #100d17, #26182f);
+  color: #fff;
+  min-height: 100vh;
+}
+
+.app {
+  max-width: 500px;
+  margin: auto;
+  padding: 24px 18px 100px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.date {
+  color: #bdb3c9;
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+.header-moon {
+  font-size: 38px;
+}
+
+.card {
+  background: rgba(30, 25, 40, 0.95);
+  border: 1px solid #3a3048;
+  border-radius: 24px;
+  padding: 20px;
+  margin-top: 18px;
+  box-shadow: 0 12px 30px rgba(0,0,0,.25);
+}
+
+.hero {
+  text-align: center;
+  padding: 28px 20px;
+}
+
+.moon {
+  font-size: 80px;
+  margin: 12px 0;
+}
+
+.muted {
+  color: #bdb3c9;
+}
+
+.phase-name {
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.stat {
+  background: #261f31;
+  border-radius: 18px;
+  padding: 16px;
+}
+
+.stat-title {
+  color: #bdb3c9;
+  font-size: 13px;
+}
+
+.stat-value {
+  font-size: 25px;
+  font-weight: 700;
+  margin-top: 6px;
+}
+
+h2 {
+  font-size: 19px;
+  margin: 0 0 12px;
+}
+
+input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid #494054;
+  background: #15111c;
+  color: white;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+button.main {
+  width: 100%;
+  border: 0;
+  border-radius: 15px;
+  padding: 15px;
+  margin-top: 12px;
+  background: #d7b4ff;
+  color: #21152d;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+button.secondary {
+  background: #30283b;
+  color: white;
+}
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  margin-top: 15px;
+}
+
+.day {
+  text-align: center;
+  padding: 9px 2px;
+  border-radius: 10px;
+  font-size: 13px;
+}
+
+.weekday {
+  color: #968ca4;
+  font-size: 12px;
+}
+
+.today {
+  outline: 2px solid #d7b4ff;
+}
+
+.period {
+  background: #7b4565;
+}
+
+nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 12px 8px 18px;
+  background: rgba(20,16,27,.95);
+  border-top: 1px solid #342b3e;
+  backdrop-filter: blur(15px);
+}
+
+nav button {
+  border: 0;
+  background: transparent;
+  color: #958b9f;
+  font-size: 12px;
+}
+
+nav button.active {
+  color: #d7b4ff;
+  font-weight: 700;
+}
+
+.screen {
+  display: none;
+}
+
+.screen.active {
+  display: block;
+}
+
+.small {
+  font-size: 13px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+  <div>
+    <div class="logo">LunaCycle 🌙</div>
+    <div class="date" id="todayDate"></div>
+  </div>
+  <div class="header-moon" id="headerMoon">🌙</div>
+</header>
+
+<!-- DZISIAJ -->
+
+<div id="todayScreen" class="screen active">
+
+  <div class="card hero">
+    <div class="muted">Dzisiejsza faza Księżyca</div>
+
+    <div class="moon" id="moonIcon">🌑</div>
+
+    <div class="phase-name" id="moonName">
+      Nów
+    </div>
+
+    <div class="muted" id="illumination"></div>
+  </div>
+
+  <div class="stats">
+
+    <div class="stat">
+      <div class="stat-title">Dzień cyklu</div>
+      <div class="stat-value" id="cycleDay">—</div>
+      <div class="small muted" id="cycleInfo">
+        Ustaw początek miesiączki
+      </div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-title">Następna miesiączka</div>
+      <div class="stat-value" id="nextPeriod">—</div>
+      <div class="small muted">przewidywanie</div>
+    </div>
+
+  </div>
+
+  <div class="card">
+
+    <h2>🩸 Początek miesiączki</h2>
+
+    <div class="muted small">
+      Wybierz pierwszy dzień ostatniej miesiączki.
+    </div>
+
+    <input type="date" id="periodDate">
+
+    <button class="main" onclick="savePeriod()">
+      Zapisz
+    </button>
+
+    <button class="main secondary" onclick="clearPeriod()">
+      Wyczyść dane
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- KALENDARZ -->
+
+<div id="calendarScreen" class="screen">
+
+  <div class="card">
+
+    <h2>📅 Kalendarz</h2>
+
+    <div class="muted" id="calendarTitle"></div>
+
+    <div class="calendar" id="calendar"></div>
+
+  </div>
+
+</div>
+
+
+<!-- HISTORIA -->
+
+<div id="historyScreen" class="screen">
+
+  <div class="card">
+
+    <h2>📊 Historia</h2>
+
+    <p class="muted">
+      Tutaj będziemy później zapisywać poprzednie cykle,
+      ich długość oraz daty miesiączek.
+    </p>
+
+  </div>
+
+</div>
+
+
+<!-- USTAWIENIA -->
+
+<div id="settingsScreen" class="screen">
+
+  <div class="card">
+
+    <h2>⚙️ Ustawienia</h2>
+
+    <div class="muted small">
+      Średnia długość Twojego cyklu
+    </div>
+
+    <input
+      type="number"
+      id="cycleLength"
+      min="15"
+      max="60"
+      value="28"
+    >
+
+    <button class="main" onclick="saveSettings()">
+      Zapisz ustawienia
+    </button>
+
+    <p class="muted small">
+      Twoje dane są zapisywane lokalnie w tej przeglądarce.
+    </p>
+
+  </div>
+
+</div>
+
+</div>
+
+
+<nav>
+
+<button class="active" onclick="showScreen('todayScreen', this)">
+🌙<br>Dzisiaj
+</button>
+
+<button onclick="showScreen('calendarScreen', this)">
+📅<br>Kalendarz
+</button>
+
+<button onclick="showScreen('historyScreen', this)">
+📊<br>Historia
+</button>
+
+<button onclick="showScreen('settingsScreen', this)">
+⚙️<br>Ustawienia
+</button>
+
+</nav>
+
+
+<script>
+
+const today = new Date();
+
+today.setHours(12,0,0,0);
+
+
+// -------------------------
+// FAZA KSIĘŻYCA
+// -------------------------
+
+function getMoonPhase(date) {
+
+  const knownNewMoon =
+    new Date("2000-01-06T18:14:00");
+
+  const lunarCycle =
+    29.530588853;
+
+  let age =
+    ((date - knownNewMoon) / 86400000)
+    % lunarCycle;
+
+  if (age < 0) {
+    age += lunarCycle;
+  }
+
+  const phases = [
+    ["Nów", "🌑"],
+    ["Sierp przybywający", "🌒"],
+    ["Pierwsza kwadra", "🌓"],
+    ["Garbaty przybywający", "🌔"],
+    ["Pełnia", "🌕"],
+    ["Garbaty ubywający", "🌖"],
+    ["Ostatnia kwadra", "🌗"],
+    ["Sierp ubywający", "🌘"]
+  ];
+
+  const index =
+    Math.round(age / lunarCycle * 8) % 8;
+
+  const illumination =
+    Math.round(
+      (1 - Math.cos(
+        age / lunarCycle * 2 * Math.PI
+      )) / 2 * 100
+    );
+
+  return {
+    name: phases[index][0],
+    icon: phases[index][1],
+    illumination
+  };
+}
+
+
+// -------------------------
+// DATY
+// -------------------------
+
+function formatDate(date) {
+
+  return date.toLocaleDateString(
+    "pl-PL",
+    {
+      day: "numeric",
+      month: "long",
+      year: "numeric"
+    }
+  );
+
+}
+
+
+// -------------------------
+// ŁADOWANIE
+// -------------------------
+
+function loadData() {
+
+  const savedPeriod =
+    localStorage.getItem("periodStart");
+
+  const cycleLength =
+    Number(
+      localStorage.getItem("cycleLength")
+      || 28
+    );
+
+  document.getElementById(
+    "cycleLength"
+  ).value = cycleLength;
+
+  document.getElementById(
+    "todayDate"
+  ).textContent = formatDate(today);
+
+
+  const moon =
+    getMoonPhase(today);
+
+  document.getElementById(
+    "moonIcon"
+  ).textContent = moon.icon;
+
+  document.getElementById(
+    "headerMoon"
+  ).textContent = moon.icon;
+
+  document.getElementById(
+    "moonName"
+  ).textContent = moon.name;
+
+  document.getElementById(
+    "illumination"
+  ).textContent =
+    moon.illumination +
+    "% oświetlenia";
+
+
+  if (!savedPeriod) {
+
+    document.getElementById(
+      "cycleDay"
+    ).textContent = "—";
+
+    document.getElementById(
+      "nextPeriod"
+    ).textContent = "—";
+
+    return;
+  }
+
+
+  const start =
+    new Date(
+      savedPeriod + "T12:00:00"
+    );
+
+  const cycleDay =
+    Math.floor(
+      (today - start) / 86400000
+    ) + 1;
+
+
+  document.getElementById(
+    "cycleDay"
+  ).textContent =
+    cycleDay > 0
+      ? cycleDay
+      : "—";
+
+
+  document.getElementById(
+    "cycleInfo"
+  ).textContent =
+    "od początku miesiączki";
+
+
+  const next =
+    new Date(start);
+
+  next.setDate(
+    next.getDate() + cycleLength
+  );
+
+
+  document.getElementById(
+    "nextPeriod"
+  ).textContent =
+    formatDate(next);
+
+
+  document.getElementById(
+    "periodDate"
+  ).value =
+    savedPeriod;
+
+}
+
+
+// -------------------------
+// ZAPIS OKRESU
+// -------------------------
+
+function savePeriod() {
+
+  const value =
+    document.getElementById(
+      "periodDate"
+    ).value;
+
+  if (!value) {
+
+    alert(
+      "Najpierw wybierz datę."
+    );
+
+    return;
+  }
+
+  localStorage.setItem(
+    "periodStart",
+    value
+  );
+
+  loadData();
+  renderCalendar();
+
+  alert(
+    "Początek miesiączki został zapisany ❤️"
+  );
+}
+
+
+// -------------------------
+// CZYSZCZENIE
+// -------------------------
+
+function clearPeriod() {
+
+  localStorage.removeItem(
+    "periodStart"
+  );
+
+  loadData();
+  renderCalendar();
+
+}
+
+
+// -------------------------
+// USTAWIENIA
+// -------------------------
+
+function saveSettings() {
+
+  let value =
+    Number(
+      document.getElementById(
+        "cycleLength"
+      ).value
+    );
+
+  if (!value) value = 28;
+
+  value =
+    Math.max(
+      15,
+      Math.min(60,value)
+    );
+
+  localStorage.setItem(
+    "cycleLength",
+    value
+  );
+
+  loadData();
+
+  alert(
+    "Ustawienia zapisane."
+  );
+
+}
+
+
+// -------------------------
+// KALENDARZ
+// -------------------------
+
+function renderCalendar() {
+
+  const year =
+    today.getFullYear();
+
+  const month =
+    today.getMonth();
+
+  const firstDay =
+    new Date(
+      year,
+      month,
+      1
+    ).getDay();
+
+  const daysInMonth =
+    new Date(
+      year,
+      month + 1,
+      0
+    ).getDate();
+
+
+  const offset =
+    (firstDay + 6) % 7;
+
+
+  document.getElementById(
+    "calendarTitle"
+  ).textContent =
+    today.toLocaleDateString(
+      "pl-PL",
+      {
+        month: "long",
+        year: "numeric"
+      }
+    );
+
+
+  let html = "";
+
+  [
+    "Pn",
+    "Wt",
+    "Śr",
+    "Cz",
+    "Pt",
+    "Sb",
+    "Nd"
+  ].forEach(day => {
+
+    html +=
+      `<div class="day weekday">
+        ${day}
+      </div>`;
+
+  });
+
+
+  for (
+    let i = 0;
+    i < offset;
+    i++
+  ) {
+
+    html += "<div></div>";
+
+  }
+
+
+  const savedPeriod =
+    localStorage.getItem(
+      "periodStart"
+    );
+
+
+  for (
+    let day = 1;
+    day <= daysInMonth;
+    day++
+  ) {
+
+    const date =
+      new Date(
+        year,
+        month,
+        day,
+        12
+      );
+
+    let classes = "day";
+
+
+    if (
+      date.toDateString()
+      === today.toDateString()
+    ) {
+
+      classes += " today";
+
+    }
+
+
+    if (savedPeriod) {
+
+      const start =
+        new Date(
+          savedPeriod +
+          "T12:00:00"
+        );
+
+      const difference =
+        Math.floor(
+          (date - start) /
+          86400000
+        );
+
+
+      if (
+        difference >= 0 &&
+        difference < 5
+      ) {
+
+        classes += " period";
+
+      }
+
+    }
+
+
+    const moon =
+      getMoonPhase(date);
+
+
+    html +=
+      `<div class="${classes}">
+        ${day}<br>
+        <small>${moon.icon}</small>
+      </div>`;
+
+  }
+
+
+  document.getElementById(
+    "calendar"
+  ).innerHTML = html;
+
+}
+
+
+// -------------------------
+// NAWIGACJA
+// -------------------------
+
+function showScreen(
+  screenId,
+  button
+) {
+
+  document
+    .querySelectorAll(".screen")
+    .forEach(screen => {
+
+      screen.classList.remove(
+        "active"
+      );
+
+    });
+
+
+  document
+    .getElementById(screenId)
+    .classList.add("active");
+
+
+  document
+    .querySelectorAll("nav button")
+    .forEach(btn => {
+
+      btn.classList.remove(
+        "active"
+      );
+
+    });
+
+
+  button.classList.add(
+    "active"
+  );
+
+
+  if (
+    screenId ===
+    "calendarScreen"
+  ) {
+
+    renderCalendar();
+
+  }
+
+}
+
+
+// START
+
+loadData();
+renderCalendar();
+
+</script>
+
+</body>
+</html>
