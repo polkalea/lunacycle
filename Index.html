@@ -1,0 +1,1614 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#171323">
+
+<title>Luna 🌙</title>
+
+<style>
+:root {
+  --bg: #0f0d16;
+  --card: #1b1725;
+  --card2: #241e31;
+  --text: #f7f1ff;
+  --muted: #b7abc4;
+  --accent: #d7b8ff;
+  --line: #342b43;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at top, #29203a 0, #0f0d16 50%);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+main {
+  max-width: 720px;
+  margin: auto;
+  padding: 22px 16px 100px;
+}
+
+h1 {
+  font-size: 34px;
+  margin: 5px 0;
+}
+
+h2, h3 {
+  margin-top: 0;
+}
+
+.sub {
+  color: var(--muted);
+  margin-bottom: 22px;
+}
+
+.card {
+  background: rgba(27,23,37,.96);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 18px;
+  margin: 12px 0;
+}
+
+.hero {
+  text-align: center;
+  padding: 28px 18px;
+}
+
+.moon {
+  font-size: 65px;
+}
+
+.big {
+  font-size: 23px;
+  font-weight: 700;
+  margin-top: 5px;
+}
+
+.small {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.stat {
+  background: var(--card2);
+  border-radius: 16px;
+  padding: 14px;
+}
+
+.label {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.value {
+  font-size: 18px;
+  margin-top: 5px;
+}
+
+button {
+  border: 0;
+  border-radius: 14px;
+  padding: 13px 16px;
+  background: var(--accent);
+  color: #21182c;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.secondary {
+  background: var(--card2);
+  color: var(--text);
+  border: 1px solid var(--line);
+}
+
+.full {
+  width: 100%;
+  margin-top: 10px;
+}
+
+label {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+  margin: 12px 0 6px;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 13px;
+  border-radius: 13px;
+  border: 1px solid var(--line);
+  background: #120f19;
+  color: var(--text);
+  font-size: 16px;
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+}
+
+.moods {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.moods button {
+  background: var(--card2);
+  color: var(--text);
+  border: 1px solid var(--line);
+  font-size: 23px;
+  padding: 12px 4px;
+}
+
+.moods button.selected {
+  outline: 2px solid var(--accent);
+}
+
+.hidden {
+  display: none;
+}
+
+.result {
+  line-height: 1.7;
+}
+
+.history-item {
+  border-top: 1px solid var(--line);
+  padding: 13px 0;
+}
+
+.history-item:first-child {
+  border-top: 0;
+}
+
+nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #15121d;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+}
+
+nav button {
+  flex: 1;
+  max-width: 180px;
+  background: none;
+  color: var(--muted);
+  border-radius: 0;
+  font-size: 12px;
+  padding: 13px 4px 16px;
+}
+
+nav button.active {
+  color: var(--accent);
+}
+</style>
+</head>
+
+<body>
+
+<main>
+
+<!-- ================= START ================= -->
+
+<section id="home">
+
+<h1>🌙 Luna</h1>
+
+<div class="sub" id="todayText"></div>
+
+<div class="card hero">
+
+<div class="moon" id="moonIcon">🌙</div>
+
+<div class="big" id="moonName">
+Faza Księżyca
+</div>
+
+<div class="small" id="moonInfo"></div>
+
+</div>
+
+<div class="card">
+
+<h2>Dzisiejszy dzień</h2>
+
+<div class="grid">
+
+<div class="stat">
+<div class="label">Dzień cyklu</div>
+<div class="value" id="cycleDay">—</div>
+</div>
+
+<div class="stat">
+<div class="label">Długość cyklu</div>
+<div class="value" id="cycleLengthDisplay">28 dni</div>
+</div>
+
+<div class="stat">
+<div class="label">Nastrój</div>
+<div class="value" id="todayMood">—</div>
+</div>
+
+<div class="stat">
+<div class="label">Energia</div>
+<div class="value" id="todayEnergy">—</div>
+</div>
+
+</div>
+
+<button class="full" onclick="showPage('entry')">
+＋ Dodaj dzisiejszy wpis
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>✨ Mój kosmos</h2>
+
+<div id="astroSummary" class="result">
+Uzupełnij dane urodzeniowe w ustawieniach.
+</div>
+
+<button
+class="secondary full"
+onclick="showPage('settings')">
+
+Ustaw mój profil astrologiczny
+
+</button>
+
+</div>
+
+</section>
+
+
+<!-- ================= WPIS ================= -->
+
+<section id="entry" class="hidden">
+
+<h1>💗 Dzisiejszy wpis</h1>
+
+<div class="sub" id="entryDate"></div>
+
+<div class="card">
+
+<h3>Nastrój</h3>
+
+<div class="moods">
+
+<button onclick="chooseMood('😊',this)">😊</button>
+<button onclick="chooseMood('🥰',this)">🥰</button>
+<button onclick="chooseMood('😌',this)">😌</button>
+<button onclick="chooseMood('😐',this)">😐</button>
+
+<button onclick="chooseMood('😔',this)">😔</button>
+<button onclick="chooseMood('😤',this)">😤</button>
+<button onclick="chooseMood('😭',this)">😭</button>
+<button onclick="chooseMood('😴',this)">😴</button>
+
+</div>
+
+
+<label>
+Energia:
+<span id="energyValue">3</span>/5
+</label>
+
+<input
+id="energy"
+type="range"
+min="1"
+max="5"
+value="3"
+oninput="energyValue.textContent=this.value"
+>
+
+
+<label>Sen</label>
+
+<div class="row">
+
+<input
+id="sleepHours"
+type="number"
+min="0"
+max="24"
+step="0.5"
+placeholder="Godziny"
+>
+
+<select id="sleepQuality">
+
+<option>Dobry</option>
+<option>Średni</option>
+<option>Słaby</option>
+
+</select>
+
+</div>
+
+
+<label>Objawy</label>
+
+<label>
+<input type="checkbox" class="symptom" value="Ból brzucha">
+Ból brzucha
+</label>
+
+<label>
+<input type="checkbox" class="symptom" value="Ból głowy">
+Ból głowy
+</label>
+
+<label>
+<input type="checkbox" class="symptom" value="Wzdęcia">
+Wzdęcia
+</label>
+
+<label>
+<input type="checkbox" class="symptom" value="Tkliwość piersi">
+Tkliwość piersi
+</label>
+
+<label>
+<input type="checkbox" class="symptom" value="Plamienie">
+Plamienie
+</label>
+
+
+<label>Notatka</label>
+
+<textarea
+id="note"
+placeholder="Jak się dziś czujesz?"
+></textarea>
+
+
+<button
+class="full"
+onclick="saveEntry()">
+
+Zapisz wpis 💜
+
+</button>
+
+</div>
+
+</section>
+
+
+<!-- ================= HISTORIA ================= -->
+
+<section id="historyPage" class="hidden">
+
+<h1>📅 Historia</h1>
+
+<div class="sub">
+Twoje zapisane dni
+</div>
+
+<div class="card" id="historyList">
+
+Brak zapisanych wpisów.
+
+</div>
+
+</section>
+
+
+<!-- ================= USTAWIENIA ================= -->
+
+<section id="settings" class="hidden">
+
+<h1>⚙️ Ustawienia</h1>
+
+<div class="sub">
+Twoje dane pozostają zapisane lokalnie w tej przeglądarce.
+</div>
+
+
+<div class="card">
+
+<h3>🩸 Cykl</h3>
+
+<label>
+Pierwszy dzień ostatniej miesiączki
+</label>
+
+<input
+id="periodStart"
+type="date"
+>
+
+<label>
+Długość cyklu
+</label>
+
+<input
+id="cycleLength"
+type="number"
+min="15"
+max="60"
+value="28"
+>
+
+<button
+class="full"
+onclick="saveCycle()">
+
+Zapisz cykl
+
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h3>✨ Mój profil astrologiczny</h3>
+
+<label>
+Data urodzenia
+</label>
+
+<input
+id="birthDate"
+type="date"
+>
+
+
+<label>
+Godzina urodzenia
+</label>
+
+<input
+id="birthTime"
+type="time"
+>
+
+
+<label>
+Szerokość geograficzna miejsca urodzenia
+</label>
+
+<input
+id="birthLat"
+type="number"
+step="0.0001"
+placeholder="np. 51.1079"
+>
+
+
+<label>
+Długość geograficzna miejsca urodzenia
+</label>
+
+<input
+id="birthLon"
+type="number"
+step="0.0001"
+placeholder="np. 17.0385"
+>
+
+
+<div class="small">
+
+Potrzebujemy daty, dokładnej godziny oraz miejsca
+urodzenia, aby obliczyć ascendent.
+
+</div>
+
+
+<button
+class="full"
+onclick="calculateAstrology()">
+
+Oblicz mój kosmos ✨
+
+</button>
+
+
+<div
+id="astroResult"
+class="result"
+style="margin-top:15px">
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>🔒 Prywatność</h3>
+
+<div class="small">
+
+Luna przechowuje wpisy i ustawienia w pamięci
+przeglądarki na tym urządzeniu.
+
+Dane nie są wysyłane do mojego serwera.
+
+Jeżeli wyczyścisz dane witryny w Safari,
+zapisane dane mogą zostać usunięte.
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+
+<!-- ================= MENU ================= -->
+
+<nav>
+
+<button
+id="navHome"
+class="active"
+onclick="showPage('home')">
+
+🌙<br>
+Start
+
+</button>
+
+
+<button
+id="navEntry"
+onclick="showPage('entry')">
+
+💗<br>
+Wpis
+
+</button>
+
+
+<button
+id="navHistory"
+onclick="showPage('historyPage')">
+
+📅<br>
+Historia
+
+</button>
+
+
+<button
+id="navSettings"
+onclick="showPage('settings')">
+
+⚙️<br>
+Ustawienia
+
+</button>
+
+</nav>
+
+
+<script>
+
+/* ==========================================
+   PODSTAWOWE FUNKCJE
+========================================== */
+
+function todayKey() {
+
+const d = new Date();
+
+return d.toISOString().slice(0,10);
+
+}
+
+
+function daysBetween(date1,date2) {
+
+const a = new Date(date1+"T12:00:00");
+
+const b = new Date(date2+"T12:00:00");
+
+return Math.floor(
+(b-a)/86400000
+);
+
+}
+
+
+/* ==========================================
+   KSIĘŻYC
+========================================== */
+
+function moonPhase(date) {
+
+const knownNewMoon =
+new Date("2000-01-06T18:14:00Z");
+
+const synodicMonth =
+29.530588853;
+
+const age =
+(
+(date-knownNewMoon)/86400000
+% synodicMonth
++ synodicMonth
+)
+% synodicMonth;
+
+
+let phase;
+
+if(age < 1.85) {
+
+phase = ["🌑","Nów"];
+
+}
+else if(age < 5.53) {
+
+phase = ["🌒","Przybywający sierp"];
+
+}
+else if(age < 9.22) {
+
+phase = ["🌓","Pierwsza kwadra"];
+
+}
+else if(age < 12.91) {
+
+phase = ["🌔","Przybywający garb"];
+
+}
+else if(age < 16.61) {
+
+phase = ["🌕","Pełnia"];
+
+}
+else if(age < 20.30) {
+
+phase = ["🌖","Ubywający garb"];
+
+}
+else if(age < 23.99) {
+
+phase = ["🌗","Ostatnia kwadra"];
+
+}
+else {
+
+phase = ["🌘","Ubywający sierp"];
+
+}
+
+
+return {
+
+icon: phase[0],
+
+name: phase[1],
+
+age: age
+
+};
+
+}
+
+
+/* ==========================================
+   ZODIAK
+========================================== */
+
+const zodiacSigns = [
+
+["Baran","♈",0],
+["Byk","♉",30],
+["Bliźnięta","♊",60],
+["Rak","♋",90],
+["Lew","♌",120],
+["Panna","♍",150],
+["Waga","♎",180],
+["Skorpion","♏",210],
+["Strzelec","♐",240],
+["Koziorożec","♑",270],
+["Wodnik","♒",300],
+["Ryby","♓",330]
+
+];
+
+
+function getZodiac(degree) {
+
+degree =
+((degree % 360)+360)%360;
+
+let result =
+zodiacSigns[0];
+
+for(
+let i=0;
+i<zodiacSigns.length;
+i++
+) {
+
+if(
+degree >= zodiacSigns[i][2]
+) {
+
+result =
+zodiacSigns[i];
+
+}
+
+}
+
+return result;
+
+}
+
+
+/* ==========================================
+   SŁOŃCE
+========================================== */
+
+function sunLongitude(date) {
+
+const y =
+date.getUTCFullYear();
+
+const m =
+date.getUTCMonth()+1;
+
+const d =
+date.getUTCDate();
+
+const days =
+(
+Date.UTC(y,m-1,d)
+-
+Date.UTC(2000,0,1.5)
+)
+/86400000;
+
+const L =
+(
+280.460 +
+0.9856474*days
+)%360;
+
+const g =
+(
+357.528 +
+0.9856003*days
+)
+*Math.PI/180;
+
+const longitude =
+L
++
+1.915*Math.sin(g)
++
+0.020*Math.sin(2*g);
+
+return (
+longitude+360
+)%360;
+
+}
+
+
+/* ==========================================
+   PRZYBLIŻONA POZYCJA KSIĘŻYCA
+========================================== */
+
+function moonLongitude(date) {
+
+const start =
+new Date("2000-01-06T18:14:00Z");
+
+const days =
+(date-start)/86400000;
+
+const longitude =
+218.316
++
+13.176396*days;
+
+return (
+longitude+360
+)%360;
+
+}
+
+
+/* ==========================================
+   ASTROLOGIA
+========================================== */
+
+function calculateAstrology() {
+
+const dateValue =
+document.getElementById("birthDate").value;
+
+const timeValue =
+document.getElementById("birthTime").value;
+
+const lat =
+Number(
+document.getElementById("birthLat").value
+);
+
+const lon =
+Number(
+document.getElementById("birthLon").value
+);
+
+
+if(
+!dateValue ||
+!timeValue ||
+!lat ||
+!lon
+) {
+
+alert(
+"Uzupełnij datę, godzinę i współrzędne urodzenia."
+);
+
+return;
+
+}
+
+
+const birth =
+new Date(
+dateValue+"T"+timeValue
+);
+
+
+/* Słońce */
+
+const sunDegree =
+sunLongitude(birth);
+
+const sun =
+getZodiac(sunDegree);
+
+
+/* Księżyc */
+
+const moonDegree =
+moonLongitude(birth);
+
+const moon =
+getZodiac(moonDegree);
+
+
+/*
+  Przybliżony ascendent.
+  W następnej wersji możemy podłączyć
+  dokładne efemerydy astronomiczne.
+*/
+
+const utc =
+birth.getTime()/1000;
+
+const julian =
+2440587.5
++
+utc/86400;
+
+const T =
+(julian-2451545)/36525;
+
+let gmst =
+280.46061837
++
+360.98564736629
+*
+(julian-2451545);
+
+gmst =
+((gmst%360)+360)%360;
+
+const lst =
+(gmst+lon)%360;
+
+const latitudeRad =
+lat*Math.PI/180;
+
+const obliquity =
+23.4393*Math.PI/180;
+
+const lstRad =
+lst*Math.PI/180;
+
+
+let asc =
+Math.atan2(
+
+Math.cos(lstRad),
+
+-(
+Math.sin(obliquity)
+*
+Math.tan(latitudeRad)
++
+Math.cos(obliquity)
+*
+Math.sin(lstRad)
+)
+
+);
+
+
+asc =
+asc*180/Math.PI;
+
+asc =
+(asc+360)%360;
+
+
+const ascendant =
+getZodiac(asc);
+
+
+/* Zapis */
+
+const astro = {
+
+sun: sun,
+
+moon: moon,
+
+ascendant: ascendant
+
+};
+
+localStorage.setItem(
+"astroProfile",
+JSON.stringify(astro)
+);
+
+
+/* Wynik */
+
+document.getElementById(
+"astroResult"
+).innerHTML =
+
+`
+${sun[1]}
+<b>Słońce w ${sun[0]}</b>
+<br>
+
+🌙
+<b>Księżyc w ${moon[0]}</b>
+<br>
+
+🌅
+<b>Ascendent w ${ascendant[0]}</b>
+`;
+
+renderAstrology();
+
+}
+
+
+/* ==========================================
+   WPIS DZIENNY
+========================================== */
+
+let selectedMood = "";
+
+
+function chooseMood(mood,button) {
+
+selectedMood =
+mood;
+
+document
+.querySelectorAll(".moods button")
+.forEach(
+b => b.classList.remove("selected")
+);
+
+button.classList.add("selected");
+
+}
+
+
+function saveEntry() {
+
+const key =
+todayKey();
+
+
+const symptoms =
+[
+...document.querySelectorAll(
+".symptom:checked"
+)
+].map(
+x => x.value
+);
+
+
+const entry = {
+
+date:key,
+
+mood:selectedMood,
+
+energy:
+Number(
+document.getElementById("energy").value
+),
+
+sleepHours:
+document.getElementById("sleepHours").value,
+
+sleepQuality:
+document.getElementById("sleepQuality").value,
+
+symptoms:symptoms,
+
+note:
+document.getElementById("note").value,
+
+moon:
+moonPhase(new Date()).name
+
+};
+
+
+localStorage.setItem(
+"entry_"+key,
+JSON.stringify(entry)
+);
+
+
+renderHome();
+
+alert("Wpis zapisany 💜");
+
+showPage("home");
+
+}
+
+
+/* ==========================================
+   CYKL
+========================================== */
+
+function saveCycle() {
+
+const start =
+document.getElementById(
+"periodStart"
+).value;
+
+const length =
+document.getElementById(
+"cycleLength"
+).value;
+
+
+if(!start) {
+
+alert(
+"Wybierz pierwszy dzień miesiączki."
+);
+
+return;
+
+}
+
+
+localStorage.setItem(
+"periodStart",
+start
+);
+
+localStorage.setItem(
+"cycleLength",
+length
+);
+
+
+renderHome();
+
+alert("Cykl zapisany 🩷");
+
+}
+
+
+/* ==========================================
+   ASTROLOGIA NA EKRANIE STARTOWYM
+========================================== */
+
+function renderAstrology() {
+
+const saved =
+localStorage.getItem(
+"astroProfile"
+);
+
+
+const box =
+document.getElementById(
+"astroSummary"
+);
+
+
+if(!saved) {
+
+box.innerHTML =
+"Uzupełnij dane urodzeniowe w ustawieniach.";
+
+return;
+
+}
+
+
+const astro =
+JSON.parse(saved);
+
+
+box.innerHTML = `
+
+${astro.sun[1]}
+<b>Słońce:</b>
+${astro.sun[0]}
+
+<br>
+
+🌙
+<b>Księżyc:</b>
+${astro.moon[0]}
+
+<br>
+
+🌅
+<b>Ascendent:</b>
+${astro.ascendant[0]}
+
+`;
+
+}
+
+
+/* ==========================================
+   EKRAN STARTOWY
+========================================== */
+
+function renderHome() {
+
+const now =
+new Date();
+
+
+document.getElementById(
+"todayText"
+).textContent =
+now.toLocaleDateString(
+"pl-PL",
+{
+weekday:"long",
+day:"numeric",
+month:"long"
+}
+);
+
+
+document.getElementById(
+"entryDate"
+).textContent =
+now.toLocaleDateString(
+"pl-PL",
+{
+weekday:"long",
+day:"numeric",
+month:"long"
+}
+);
+
+
+/* Księżyc */
+
+const moon =
+moonPhase(now);
+
+
+document.getElementById(
+"moonIcon"
+).textContent =
+moon.icon;
+
+
+document.getElementById(
+"moonName"
+).textContent =
+moon.name;
+
+
+document.getElementById(
+"moonInfo"
+).textContent =
+"Wiek Księżyca: "
++
+moon.age.toFixed(1)
++
+" dnia";
+
+
+/* Cykl */
+
+const start =
+localStorage.getItem(
+"periodStart"
+);
+
+
+const length =
+Number(
+localStorage.getItem(
+"cycleLength"
+) || 28
+);
+
+
+document.getElementById(
+"cycleLengthDisplay"
+).textContent =
+length+" dni";
+
+
+if(start) {
+
+const day =
+daysBetween(
+start,
+todayKey()
+)+1;
+
+
+document.getElementById(
+"cycleDay"
+).textContent =
+Math.max(1,day);
+
+}
+else {
+
+document.getElementById(
+"cycleDay"
+).textContent =
+"—";
+
+}
+
+
+/* Dzisiejszy wpis */
+
+const saved =
+localStorage.getItem(
+"entry_"+todayKey()
+);
+
+
+if(saved) {
+
+const entry =
+JSON.parse(saved);
+
+
+document.getElementById(
+"todayMood"
+).textContent =
+entry.mood || "—";
+
+
+document.getElementById(
+"todayEnergy"
+).textContent =
+entry.energy+"/5";
+
+}
+else {
+
+document.getElementById(
+"todayMood"
+).textContent =
+"—";
+
+
+document.getElementById(
+"todayEnergy"
+).textContent =
+"—";
+
+}
+
+
+renderAstrology();
+
+}
+
+
+/* ==========================================
+   HISTORIA
+========================================== */
+
+function renderHistory() {
+
+const box =
+document.getElementById(
+"historyList"
+);
+
+
+let html = "";
+
+
+for(
+let i=0;
+i<365;
+i++
+) {
+
+const date =
+new Date();
+
+
+date.setDate(
+date.getDate()-i
+);
+
+
+const key =
+date.toISOString()
+.slice(0,10);
+
+
+const saved =
+localStorage.getItem(
+"entry_"+key
+);
+
+
+if(!saved) continue;
+
+
+const entry =
+JSON.parse(saved);
+
+
+html += `
+
+<div class="history-item">
+
+<b>
+${date.toLocaleDateString(
+"pl-PL",
+{
+day:"numeric",
+month:"long",
+year:"numeric"
+}
+)}
+</b>
+
+<br>
+
+<span class="small">
+
+Nastrój:
+${entry.mood || "—"}
+
+<br>
+
+Energia:
+${entry.energy}/5
+
+<br>
+
+Sen:
+${entry.sleepHours || "—"} h
+(${entry.sleepQuality || "—"})
+
+<br>
+
+🌙 ${entry.moon}
+
+<br>
+
+Objawy:
+${entry.symptoms.length
+? entry.symptoms.join(", ")
+: "brak"}
+
+${entry.note
+? "<br>📝 "+escapeHTML(entry.note)
+: ""}
+
+</span>
+
+</div>
+
+`;
+
+}
+
+
+if(!html) {
+
+html =
+"Nie masz jeszcze zapisanych wpisów.";
+
+}
+
+
+box.innerHTML =
+html;
+
+}
+
+
+/* ==========================================
+   BEZPIECZNE WYŚWIETLANIE NOTATEK
+========================================== */
+
+function escapeHTML(text) {
+
+return text
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+/* ==========================================
+   NAWIGACJA
+========================================== */
+
+function showPage(page) {
+
+const pages = [
+"home",
+"entry",
+"historyPage",
+"settings"
+];
+
+
+pages.forEach(
+p => {
+
+document
+.getElementById(p)
+.classList.toggle(
+"hidden",
+p !== page
+);
+
+}
+);
+
+
+document
+.querySelectorAll("nav button")
+.forEach(
+b => b.classList.remove("active")
+);
+
+
+if(page === "home") {
+
+document
+.getElementById("navHome")
+.classList.add("active");
+
+}
+
+
+if(page === "entry") {
+
+document
+.getElementById("navEntry")
+.classList.add("active");
+
+}
+
+
+if(page === "historyPage") {
+
+document
+.getElementById("navHistory")
+.classList.add("active");
+
+renderHistory();
+
+}
+
+
+if(page === "settings") {
+
+document
+.getElementById("navSettings")
+.classList.add("active");
+
+loadSettings();
+
+}
+
+}
+
+
+/* ==========================================
+   WCZYTYWANIE USTAWIEŃ
+========================================== */
+
+function loadSettings() {
+
+document.getElementById(
+"periodStart"
+).value =
+localStorage.getItem(
+"periodStart"
+) || "";
+
+
+document.getElementById(
+"cycleLength"
+).value =
+localStorage.getItem(
+"cycleLength"
+) || 28;
+
+}
+
+
+/* ==========================================
+   START
+========================================== */
+
+renderHome();
+
+</script>
+
+</body>
+</html>
