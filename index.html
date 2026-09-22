@@ -1,0 +1,2768 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#11101d">
+<title>Luna 🌙</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:
+    radial-gradient(circle at 20% 0%,#382c59 0,#191625 38%,#0c0b12 100%);
+  color:#f7f4ff;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  min-height:100vh;
+}
+
+button,input,select,textarea{font:inherit}
+
+button{
+  border:0;
+  cursor:pointer;
+}
+
+.app{
+  max-width:680px;
+  margin:auto;
+  padding-bottom:105px;
+}
+
+header{
+  text-align:center;
+  padding:28px 18px 12px;
+}
+
+.logo{font-size:48px}
+
+h1{
+  margin:4px 0;
+  font-size:31px;
+}
+
+h2{margin-top:0}
+h3{margin-top:0}
+
+.muted{color:#aaa3bb}
+.small{font-size:12px}
+
+.page{
+  display:none;
+  padding:0 15px;
+}
+
+.page.active{display:block}
+
+.card{
+  background:rgba(27,25,42,.91);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:22px;
+  padding:18px;
+  margin:12px 0;
+  box-shadow:0 10px 35px rgba(0,0,0,.18);
+}
+
+.hero{
+  background:linear-gradient(145deg,rgba(93,73,137,.58),rgba(29,26,46,.96));
+}
+
+.big{
+  font-size:30px;
+  font-weight:750;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.grid3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.stat{
+  background:#211e31;
+  border-radius:15px;
+  padding:13px 7px;
+  text-align:center;
+}
+
+.stat b{
+  display:block;
+  font-size:21px;
+}
+
+.stat span{
+  color:#aaa3bd;
+  font-size:11px;
+}
+
+label{
+  display:block;
+  margin:13px 0 6px;
+  color:#d8d1e9;
+  font-size:13px;
+}
+
+input,select,textarea{
+  width:100%;
+  background:#11101a;
+  border:1px solid #39344b;
+  border-radius:13px;
+  color:#fff;
+  padding:12px;
+  outline:none;
+}
+
+textarea{
+  min-height:100px;
+  resize:vertical;
+}
+
+.primary{
+  width:100%;
+  margin-top:13px;
+  padding:14px;
+  border-radius:15px;
+  background:#9878d0;
+  color:#fff;
+  font-weight:700;
+}
+
+.secondary{
+  background:#302b43;
+  color:#eee;
+  border-radius:12px;
+  padding:9px 13px;
+}
+
+.danger{
+  background:#5c2939;
+}
+
+.pills{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+}
+
+.pill{
+  background:#29253a;
+  color:#d8d1e4;
+  padding:9px 12px;
+  border-radius:999px;
+}
+
+.pill.selected{
+  background:#9271ca;
+  color:#fff;
+}
+
+.notice{
+  background:#262239;
+  border-left:3px solid #9271ca;
+  border-radius:10px;
+  padding:12px;
+  font-size:12px;
+  color:#c9c1d7;
+}
+
+.moonbox{
+  display:flex;
+  gap:15px;
+  align-items:center;
+}
+
+.moonicon{font-size:50px}
+
+.advice{
+  background:#252039;
+  border-radius:15px;
+  padding:13px;
+  margin-top:9px;
+}
+
+.food{
+  border-bottom:1px solid #343043;
+  padding:10px 0;
+}
+
+.food:last-child{border-bottom:0}
+
+.food b{display:block;margin-bottom:3px}
+
+.calendar-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+}
+
+.calendar{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:4px;
+}
+
+.weekday{
+  text-align:center;
+  color:#898297;
+  font-size:10px;
+  padding:5px 0;
+}
+
+.day{
+  min-height:50px;
+  border-radius:11px;
+  background:#1a1826;
+  padding:5px;
+  font-size:12px;
+  position:relative;
+}
+
+.day.today{
+  outline:2px solid #a98ce0;
+}
+
+.day.period{background:#643449}
+.day.fertile{background:#31504b}
+.day.ovulation{background:#6b5c3e}
+.day.hasentry{border:1px solid #75658f}
+
+.day .emoji{
+  position:absolute;
+  right:4px;
+  bottom:3px;
+  font-size:11px;
+}
+
+.legend{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:12px;
+}
+
+.legend span{
+  color:#aaa3bb;
+  font-size:10px;
+}
+
+.weight-current{
+  text-align:center;
+  padding:8px 0 15px;
+}
+
+.weight-number{
+  font-size:38px;
+  font-weight:750;
+}
+
+canvas{
+  width:100%;
+  height:230px;
+  background:#15131f;
+  border-radius:15px;
+  display:block;
+}
+
+.history-row{
+  border-top:1px solid #312d40;
+  padding:12px 0;
+}
+
+.history-row:first-child{border-top:0}
+
+.tag{
+  display:inline-block;
+  background:#302b43;
+  border-radius:999px;
+  padding:5px 9px;
+  margin:3px 2px;
+  font-size:11px;
+}
+
+.astro{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:9px;
+}
+
+.astro-card{
+  background:#211e31;
+  border-radius:15px;
+  padding:13px;
+}
+
+.astro-symbol{
+  font-size:25px;
+}
+
+.nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  z-index:50;
+  display:flex;
+  justify-content:center;
+  gap:3px;
+  padding:7px 6px calc(7px + env(safe-area-inset-bottom));
+  background:rgba(14,13,22,.97);
+  backdrop-filter:blur(15px);
+  border-top:1px solid #29263a;
+}
+
+.nav button{
+  flex:1;
+  max-width:125px;
+  background:none;
+  color:#8f889f;
+  font-size:10px;
+  padding:5px 2px;
+  border-radius:12px;
+}
+
+.nav button.active{
+  background:#29243c;
+  color:#fff;
+}
+
+.nav span{
+  display:block;
+  font-size:19px;
+}
+
+.empty{
+  text-align:center;
+  color:#91899f;
+  padding:25px 8px;
+}
+
+@media(max-width:390px){
+  .grid3{grid-template-columns:1fr 1fr}
+  .astro{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+  <div class="logo">🌙</div>
+  <h1>Luna</h1>
+  <div class="muted small">
+    cykl • ciało • samopoczucie • Księżyc • kosmos
+  </div>
+</header>
+
+
+<!-- ================= START ================= -->
+
+<section id="home" class="page active">
+
+  <div class="card hero">
+    <div class="muted" id="today"></div>
+    <div class="big" id="cycleDay">Ustaw swój cykl</div>
+    <div id="cyclePhase"></div>
+    <div class="small muted" id="nextPeriod"></div>
+  </div>
+
+  <div class="card">
+    <div class="moonbox">
+      <div class="moonicon" id="moonIcon">🌙</div>
+      <div>
+        <b id="moonName">Księżyc</b>
+        <div class="muted small" id="moonText"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid3">
+    <div class="stat">
+      <b id="homeAvgCycle">—</b>
+      <span>średni cykl</span>
+    </div>
+
+    <div class="stat">
+      <b id="homeEntries">0</b>
+      <span>wpisów</span>
+    </div>
+
+    <div class="stat">
+      <b id="homeWeight">—</b>
+      <span>ostatnia waga</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>💜 Dzisiejszy dzień</h3>
+
+    <div class="grid">
+
+      <div>
+        <label>Nastrój</label>
+        <select id="quickMood">
+          <option value="">—</option>
+          <option>🥰 Świetny</option>
+          <option>😊 Dobry</option>
+          <option>😌 Spokojny</option>
+          <option>😐 Neutralny</option>
+          <option>🥺 Wrażliwy</option>
+          <option>😔 Smutny</option>
+          <option>😤 Rozdrażniony</option>
+          <option>😫 Trudny</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Energia</label>
+        <select id="quickEnergy">
+          <option value="">—</option>
+          <option value="1">1 / 5</option>
+          <option value="2">2 / 5</option>
+          <option value="3">3 / 5</option>
+          <option value="4">4 / 5</option>
+          <option value="5">5 / 5</option>
+        </select>
+      </div>
+
+    </div>
+
+    <button class="primary" onclick="openToday()">
+      📝 Dzisiejszy wpis
+    </button>
+  </div>
+
+  <div class="card">
+    <h3>🥗 Co może Ci dziś służyć?</h3>
+    <div id="foodAdvice"></div>
+  </div>
+
+  <div class="card">
+    <h3>🏃 Ruch i regeneracja</h3>
+    <div id="movementAdvice"></div>
+  </div>
+
+</section>
+
+
+<!-- ================= KALENDARZ ================= -->
+
+<section id="calendarPage" class="page">
+
+  <div class="card">
+
+    <div class="calendar-head">
+      <button class="secondary" onclick="changeMonth(-1)">‹</button>
+      <b id="calendarTitle"></b>
+      <button class="secondary" onclick="changeMonth(1)">›</button>
+    </div>
+
+    <div class="calendar" id="calendarGrid"></div>
+
+    <div class="legend">
+      <span>🩸 miesiączka</span>
+      <span>🌿 płodność</span>
+      <span>✨ owulacja</span>
+      <span>📝 wpis</span>
+    </div>
+
+  </div>
+
+  <div class="card">
+    <h3>📅 Twój cykl</h3>
+    <div id="calendarInfo"></div>
+  </div>
+
+</section>
+
+
+<!-- ================= WPIS ================= -->
+
+<section id="entry" class="page">
+
+  <div class="card">
+
+    <h2>📝 Mój dzień</h2>
+
+    <label>Data</label>
+    <input type="date" id="entryDate">
+
+    <label>Nastrój</label>
+
+    <div class="pills" id="moodButtons">
+      <button class="pill" data-mood="🥰 Świetny">🥰</button>
+      <button class="pill" data-mood="😊 Dobry">😊</button>
+      <button class="pill" data-mood="😌 Spokojny">😌</button>
+      <button class="pill" data-mood="😐 Neutralny">😐</button>
+      <button class="pill" data-mood="🥺 Wrażliwy">🥺</button>
+      <button class="pill" data-mood="😔 Smutny">😔</button>
+      <button class="pill" data-mood="😤 Rozdrażniony">😤</button>
+      <button class="pill" data-mood="😫 Trudny">😫</button>
+    </div>
+
+    <label>⚡ Energia: <span id="energyLabel">3</span>/5</label>
+    <input type="range" id="energy" min="1" max="5" value="3">
+
+    <label>🧠 Stres: <span id="stressLabel">3</span>/5</label>
+    <input type="range" id="stress" min="1" max="5" value="3">
+
+    <label>😴 Sen — godziny</label>
+    <input type="number" id="sleep" min="0" max="24" step=".5">
+
+    <label>💧 Woda — litry</label>
+    <input type="number" id="water" min="0" max="20" step=".1">
+
+    <label>🩸 Krwawienie</label>
+    <select id="bleeding">
+      <option value="">Brak</option>
+      <option>🌸 Plamienie</option>
+      <option>🩸 Lekkie</option>
+      <option>🩸🩸 Średnie</option>
+      <option>🩸🩸🩸 Obfite</option>
+    </select>
+
+    <label>🤕 Objawy</label>
+
+    <div class="pills" id="symptomButtons">
+      <button class="pill" data-symptom="Ból brzucha">Brzuch</button>
+      <button class="pill" data-symptom="Ból pleców">Plecy</button>
+      <button class="pill" data-symptom="Ból głowy">Głowa</button>
+      <button class="pill" data-symptom="Wzdęcia">Wzdęcia</button>
+      <button class="pill" data-symptom="Tkliwość piersi">Piersi</button>
+      <button class="pill" data-symptom="Zmęczenie">Zmęczenie</button>
+      <button class="pill" data-symptom="Zwiększony apetyt">Apetyt</button>
+      <button class="pill" data-symptom="Ochota na słodycze">Słodycze</button>
+      <button class="pill" data-symptom="Trądzik">Skóra</button>
+      <button class="pill" data-symptom="Nudności">Nudności</button>
+    </div>
+
+    <label>🏃 Aktywność</label>
+    <select id="activity">
+      <option value="">Brak</option>
+      <option>🚶 Spacer</option>
+      <option>🧘 Joga / stretching</option>
+      <option>🏋️ Trening siłowy</option>
+      <option>🏃 Bieganie</option>
+      <option>🚴 Rower</option>
+      <option>🏊 Pływanie</option>
+      <option>💃 Taniec</option>
+      <option>😴 Odpoczynek</option>
+    </select>
+
+    <div class="grid">
+
+      <div>
+        <label>Czas aktywności</label>
+        <input type="number" id="activityMinutes">
+      </div>
+
+      <div>
+        <label>Intensywność</label>
+        <select id="activityIntensity">
+          <option value="">—</option>
+          <option>Lekka</option>
+          <option>Średnia</option>
+          <option>Duża</option>
+        </select>
+      </div>
+
+    </div>
+
+    <label>🔥 Libido</label>
+    <select id="libido">
+      <option value="">—</option>
+      <option>1 — bardzo niskie</option>
+      <option>2 — niskie</option>
+      <option>3 — średnie</option>
+      <option>4 — wysokie</option>
+      <option>5 — bardzo wysokie</option>
+    </select>
+
+    <label>⚖️ Waga — kg</label>
+    <input
+      type="number"
+      id="entryWeight"
+      min="20"
+      max="300"
+      step=".1"
+      placeholder="np. 63.4"
+    >
+
+    <label>📝 Notatka</label>
+    <textarea id="notes"
+      placeholder="Jak się dziś czujesz? Co się wydarzyło?"></textarea>
+
+    <button class="primary" onclick="saveEntry()">
+      💜 Zapisz wpis
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- ================= CIAŁO ================= -->
+
+<section id="body" class="page">
+
+  <div class="card">
+
+    <h2>⚖️ Moje ciało</h2>
+
+    <div class="weight-current">
+      <div class="muted small">Ostatni pomiar</div>
+      <div class="weight-number" id="currentWeight">—</div>
+      <div class="muted" id="weightChange"></div>
+    </div>
+
+    <label>Dodaj pomiar</label>
+
+    <div class="grid">
+      <input type="date" id="weightDate">
+      <input
+        type="number"
+        id="weightInput"
+        min="20"
+        max="300"
+        step=".1"
+        placeholder="kg"
+      >
+    </div>
+
+    <button class="primary" onclick="saveWeight()">
+      ⚖️ Zapisz wagę
+    </button>
+
+  </div>
+
+
+  <div class="card">
+
+    <h3>📈 Historia wagi</h3>
+
+    <canvas id="weightChart" width="600" height="260"></canvas>
+
+    <div id="weightStats" style="margin-top:12px"></div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h3>🔥 Orientacyjne zapotrzebowanie</h3>
+
+    <div id="calorieResult"></div>
+
+    <div class="notice" style="margin-top:12px">
+      To orientacyjne obliczenie zapotrzebowania energetycznego,
+      a nie indywidualna porada dietetyczna ani medyczna.
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h3>📚 Pomiary</h3>
+
+    <div id="weightHistory"></div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= HISTORIA ================= -->
+
+<section id="history" class="page">
+
+  <div class="card">
+
+    <h2>📊 Moje statystyki</h2>
+
+    <div class="grid3">
+
+      <div class="stat">
+        <b id="avgCycle">—</b>
+        <span>średni cykl</span>
+      </div>
+
+      <div class="stat">
+        <b id="avgEnergy">—</b>
+        <span>energia</span>
+      </div>
+
+      <div class="stat">
+        <b id="avgSleep">—</b>
+        <span>sen</span>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h3>🔎 Co zauważa Luna?</h3>
+
+    <div id="patterns"></div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h3>📚 Ostatnie wpisy</h3>
+
+    <div id="historyList"></div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= KOSMOS ================= -->
+
+<section id="astro" class="page">
+
+  <div class="card">
+
+    <h2>🔮 Mój pełny profil astrologiczny</h2>
+
+    <label>Data urodzenia</label>
+    <input type="date" id="birthDate">
+
+    <label>Godzina urodzenia</label>
+    <input type="time" id="birthTime">
+
+    <label>Miejsce urodzenia</label>
+    <input type="text" id="birthPlace" placeholder="np. Wrocław">
+
+    <button class="primary" onclick="saveAstro()">
+      ✨ Zapisz profil
+    </button>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="astro" id="astroProfile"></div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h3>🌌 Jak czytać profil?</h3>
+
+    <div class="notice">
+      Słońce symbolicznie opisuje podstawową tożsamość,
+      Księżyc — emocjonalny świat,
+      Ascendent — sposób, w jaki człowiek może być odbierany.
+      Merkury wiąże się z komunikacją, Wenus z relacjami i wartościami,
+      Mars z działaniem, a planety zewnętrzne są zwykle interpretowane
+      bardziej pokoleniowo.
+      Są to interpretacje astrologiczne, a nie ustalenia naukowe.
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= USTAWIENIA ================= -->
+
+<section id="settings" class="page">
+
+  <div class="card">
+
+    <h2>⚙️ Cykl</h2>
+
+    <label>Początek ostatniej miesiączki</label>
+    <input type="date" id="periodStart">
+
+    <div class="grid">
+
+      <div>
+        <label>Średnia długość cyklu</label>
+        <input type="number" id="cycleLength" min="15" max="60">
+      </div>
+
+      <div>
+        <label>Zwykle dni krwawienia</label>
+        <input type="number" id="periodLength" min="1" max="14">
+      </div>
+
+    </div>
+
+    <button class="primary" onclick="saveCycle()">
+      💾 Zapisz cykl
+    </button>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>🔥 Dane do zapotrzebowania</h2>
+
+    <label>Wiek</label>
+    <input type="number" id="age" min="13" max="100">
+
+    <label>Wzrost — cm</label>
+    <input type="number" id="height" min="100" max="230">
+
+    <label>Płeć biologiczna używana do wzoru</label>
+    <select id="sex">
+      <option value="female">Kobieta</option>
+      <option value="male">Mężczyzna</option>
+    </select>
+
+    <label>Poziom aktywności</label>
+
+    <select id="activityLevel">
+
+      <option value="1.2">
+        🛋️ Mała aktywność
+      </option>
+
+      <option value="1.375">
+        🚶 Lekka aktywność
+      </option>
+
+      <option value="1.55">
+        🏃 Umiarkowana aktywność
+      </option>
+
+      <option value="1.725">
+        🏋️ Duża aktywność
+      </option>
+
+      <option value="1.9">
+        🔥 Bardzo duża aktywność
+      </option>
+
+    </select>
+
+    <button class="primary" onclick="saveBodySettings()">
+      💾 Zapisz dane
+    </button>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>🔐 Prywatność</h2>
+
+    <div class="notice">
+      Luna zapisuje dane lokalnie w pamięci przeglądarki.
+      Nie są one wysyłane przez aplikację na serwer.
+      Jeśli wyczyścisz dane witryny lub pamięć przeglądarki,
+      lokalne dane aplikacji mogą zostać utracone.
+    </div>
+
+    <button class="primary danger" onclick="deleteEverything()">
+      🗑️ Usuń wszystkie dane
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- ================= NAWIGACJA ================= -->
+
+<nav class="nav">
+
+  <button onclick="showPage('home')" data-page="home" class="active">
+    <span>🌙</span>Start
+  </button>
+
+  <button onclick="showPage('calendarPage')" data-page="calendarPage">
+    <span>📅</span>Kalendarz
+  </button>
+
+  <button onclick="showPage('entry')" data-page="entry">
+    <span>📝</span>Wpis
+  </button>
+
+  <button onclick="showPage('body')" data-page="body">
+    <span>⚖️</span>Ciało
+  </button>
+
+  <button onclick="showPage('astro')" data-page="astro">
+    <span>🔮</span>Kosmos
+  </button>
+
+  <button onclick="showPage('history')" data-page="history">
+    <span>📊</span>Historia
+  </button>
+
+  <button onclick="showPage('settings')" data-page="settings">
+    <span>⚙️</span>Ustawienia
+  </button>
+
+</nav>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   LUNA 4.0
+========================================================= */
+
+const KEY="lunaDataV4";
+
+let data=JSON.parse(localStorage.getItem(KEY)||"null")||{
+  settings:{
+    periodStart:"",
+    cycleLength:28,
+    periodLength:5,
+    age:"",
+    height:"",
+    sex:"female",
+    activityLevel:"1.375",
+    birthDate:"",
+    birthTime:"",
+    birthPlace:""
+  },
+  entries:{},
+  weights:[]
+};
+
+let selectedMood="";
+let selectedSymptoms=[];
+let calendarDate=new Date();
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function saveData(){
+  localStorage.setItem(KEY,JSON.stringify(data));
+}
+
+function keyDate(date=new Date()){
+
+  const d=new Date(date);
+
+  return d.getFullYear()+"-"+
+    String(d.getMonth()+1).padStart(2,"0")+"-"+
+    String(d.getDate()).padStart(2,"0");
+}
+
+function parseDate(s){
+
+  if(!s)return null;
+
+  const p=s.split("-").map(Number);
+
+  return new Date(p[0],p[1]-1,p[2]);
+}
+
+function daysBetween(a,b){
+
+  const x=new Date(a);
+  const y=new Date(b);
+
+  x.setHours(0,0,0,0);
+  y.setHours(0,0,0,0);
+
+  return Math.round((x-y)/86400000);
+}
+
+function formatDate(s){
+
+  const d=parseDate(s);
+
+  if(!d)return "—";
+
+  return d.toLocaleDateString("pl-PL",{
+    day:"numeric",
+    month:"long",
+    year:"numeric"
+  });
+}
+
+function average(numbers){
+
+  if(!numbers.length)return null;
+
+  return numbers.reduce((a,b)=>a+b,0)/numbers.length;
+}
+
+
+/* =========================================================
+   NAWIGACJA
+========================================================= */
+
+function showPage(id){
+
+  document.querySelectorAll(".page")
+    .forEach(p=>p.classList.remove("active"));
+
+  const page=document.getElementById(id);
+
+  if(page)page.classList.add("active");
+
+  document.querySelectorAll(".nav button")
+    .forEach(b=>{
+      b.classList.toggle(
+        "active",
+        b.dataset.page===id
+      );
+    });
+
+  if(id==="calendarPage")renderCalendar();
+  if(id==="body")renderBody();
+  if(id==="history")renderHistory();
+  if(id==="astro")renderAstro();
+}
+
+function openToday(){
+
+  showPage("entry");
+
+  document.getElementById("entryDate").value=keyDate();
+
+  loadEntry();
+}
+
+
+/* =========================================================
+   CYKL
+========================================================= */
+
+function cycleInfo(date=new Date()){
+
+  const s=parseDate(data.settings.periodStart);
+
+  if(!s){
+
+    return{
+      day:null,
+      phase:"Ustaw początek ostatniej miesiączki",
+      next:null,
+      ovulation:null,
+      fertileStart:null,
+      fertileEnd:null
+    };
+  }
+
+  const length=Number(data.settings.cycleLength)||28;
+  const period=Number(data.settings.periodLength)||5;
+
+  let day=daysBetween(date,s)+1;
+
+  if(day<1){
+
+    const cycles=Math.ceil(
+      Math.abs(day)/length
+    );
+
+    const adjusted=new Date(s);
+
+    adjusted.setDate(
+      adjusted.getDate()-cycles*length
+    );
+
+    day=daysBetween(date,adjusted)+1;
+  }
+
+  const next=new Date(s);
+
+  next.setDate(
+    next.getDate()+
+    Math.ceil(daysBetween(date,s)/length)*length+
+    length
+  );
+
+  const ovulation=new Date(s);
+
+  ovulation.setDate(
+    ovulation.getDate()+length-14
+  );
+
+  const fertileStart=new Date(ovulation);
+
+  fertileStart.setDate(
+    fertileStart.getDate()-5
+  );
+
+  const fertileEnd=new Date(ovulation);
+
+  fertileEnd.setDate(
+    fertileEnd.getDate()+1
+  );
+
+  let phase;
+
+  if(day<=period){
+    phase="🩸 Miesiączka";
+  }
+  else if(
+    date>=fertileStart &&
+    date<=fertileEnd
+  ){
+    phase=
+      keyDate(date)===keyDate(ovulation)
+      ?"✨ Okolice owulacji"
+      :"🌿 Okno płodności";
+  }
+  else if(day<length-14){
+    phase="🌱 Faza folikularna";
+  }
+  else{
+    phase="🌙 Faza lutealna";
+  }
+
+  return{
+    day,
+    phase,
+    next,
+    ovulation,
+    fertileStart,
+    fertileEnd
+  };
+}
+
+function averageCycle(){
+
+  const start=parseDate(
+    data.settings.periodStart
+  );
+
+  const bleedingStarts=[];
+
+  if(start)bleedingStarts.push(start);
+
+  Object.keys(data.entries).forEach(k=>{
+
+    const e=data.entries[k];
+
+    if(
+      e.bleeding &&
+      e.bleeding!==""
+    ){
+      bleedingStarts.push(parseDate(k));
+    }
+  });
+
+  bleedingStarts.sort((a,b)=>a-b);
+
+  const diffs=[];
+
+  for(let i=1;i<bleedingStarts.length;i++){
+
+    const d=daysBetween(
+      bleedingStarts[i],
+      bleedingStarts[i-1]
+    );
+
+    if(d>=15&&d<=60)
+      diffs.push(d);
+  }
+
+  return Math.round(
+    average(diffs)||
+    Number(data.settings.cycleLength)||
+    28
+  );
+}
+
+
+/* =========================================================
+   KSIĘŻYC
+========================================================= */
+
+function moonPhase(date=new Date()){
+
+  const known=new Date(
+    "2000-01-06T18:14:00Z"
+  );
+
+  const diff=(date-known)/86400000;
+
+  const age=
+    (diff%29.530588853+
+     29.530588853)%29.530588853;
+
+  if(age<1.85)
+    return{
+      icon:"🌑",
+      name:"Nów",
+      text:"Symboliczny początek i wyciszenie."
+    };
+
+  if(age<7.38)
+    return{
+      icon:"🌒",
+      name:"Przybywający sierp",
+      text:"Symboliczny etap wzrostu."
+    };
+
+  if(age<9.23)
+    return{
+      icon:"🌓",
+      name:"Pierwsza kwadra",
+      text:"Symboliczne działanie i decyzje."
+    };
+
+  if(age<14.77)
+    return{
+      icon:"🌔",
+      name:"Przybywający garb",
+      text:"Zbliżanie się do pełni."
+    };
+
+  if(age<16.61)
+    return{
+      icon:"🌕",
+      name:"Pełnia",
+      text:"Kulminacja cyklu księżycowego."
+    };
+
+  if(age<22.15)
+    return{
+      icon:"🌖",
+      name:"Ubywający garb",
+      text:"Symboliczne porządkowanie."
+    };
+
+  if(age<23.99)
+    return{
+      icon:"🌗",
+      name:"Ostatnia kwadra",
+      text:"Symboliczne domykanie."
+    };
+
+  return{
+    icon:"🌘",
+    name:"Ubywający sierp",
+    text:"Wyciszenie i przygotowanie."
+  };
+}
+
+
+/* =========================================================
+   JEDZENIE
+========================================================= */
+
+function foodForPhase(phase){
+
+  if(phase.includes("Miesiączka")){
+
+    return[
+      ["🥣 Śniadanie",
+       "Owsianka + jogurt grecki + borówki + pestki dyni"],
+      ["🍲 Obiad",
+       "Soczewica + ryż + szpinak + papryka"],
+      ["🐟 Kolacja",
+       "Łosoś + ziemniaki + brokuły"],
+      ["🍫 Przekąska",
+       "Banan + masło orzechowe lub kilka kostek gorzkiej czekolady"],
+      ["🧲 Warto zwrócić uwagę",
+       "Źródła żelaza: soczewica, fasola, mięso, ryby, tofu, pestki dyni"]
+    ];
+
+  }
+
+  if(phase.includes("folikularna")){
+
+    return[
+      ["🥚 Śniadanie",
+       "Jajka + pełnoziarnisty chleb + pomidor + awokado"],
+      ["🥗 Obiad",
+       "Kurczak lub tofu + kasza + brokuły + marchew"],
+      ["🐟 Kolacja",
+       "Tuńczyk + ziemniaki + duża sałatka"],
+      ["🫐 Przekąska",
+       "Skyr + borówki + orzechy"],
+      ["🥬 Produkty",
+       "Warzywa, owoce, produkty pełnoziarniste, jajka i źródła białka"]
+    ];
+
+  }
+
+  if(
+    phase.includes("owulacji")||
+    phase.includes("płodności")
+  ){
+
+    return[
+      ["🥣 Śniadanie",
+       "Skyr + płatki owsiane + maliny + orzechy włoskie"],
+      ["🥗 Obiad",
+       "Łosoś + komosa ryżowa + rukola + pomidorki"],
+      ["🥑 Kolacja",
+       "Jajka + awokado + pieczywo pełnoziarniste + warzywa"],
+      ["🍎 Przekąska",
+       "Jabłko + jogurt naturalny"],
+      ["🥦 Produkty",
+       "Warzywa, owoce, ryby, jajka, nabiał, orzechy i nasiona"]
+    ];
+
+  }
+
+  return[
+    ["🥣 Śniadanie",
+     "Owsianka + banan + cynamon + masło orzechowe"],
+    ["🍛 Obiad",
+     "Kurczak lub ciecierzyca + ryż + warzywa"],
+    ["🍲 Kolacja",
+     "Zupa krem z warzyw + jajko lub tofu"],
+    ["🍐 Przekąska",
+     "Gruszka + garść migdałów"],
+    ["🥬 Produkty",
+     "Warzywa, pełne ziarna, strączki, orzechy, nasiona i źródła białka"]
+  ];
+}
+
+function renderFood(){
+
+  const c=cycleInfo();
+
+  const box=document.getElementById("foodAdvice");
+
+  if(!c.day){
+
+    box.innerHTML=
+      "<div class='empty'>Najpierw ustaw cykl w Ustawieniach.</div>";
+
+    return;
+  }
+
+  box.innerHTML=
+    foodForPhase(c.phase)
+    .map(x=>`
+      <div class="food">
+        <b>${x[0]}</b>
+        <span class="muted small">${x[1]}</span>
+      </div>
+    `)
+    .join("");
+}
+
+
+/* =========================================================
+   RUCH
+========================================================= */
+
+function renderMovement(){
+
+  const c=cycleInfo();
+
+  let text="";
+
+  if(c.phase.includes("Miesiączka"))
+    text="🧘 Spacer, łagodny stretching, joga lub odpoczynek. Dopasuj intensywność do samopoczucia.";
+
+  else if(c.phase.includes("folikularna"))
+    text="🏃 Jeśli masz energię, możesz wybrać trening siłowy, bieg, rower lub bardziej dynamiczny ruch.";
+
+  else if(
+    c.phase.includes("owulacji")||
+    c.phase.includes("płodności")
+  )
+    text="🔥 Jeśli dobrze się czujesz, możesz wybrać trening o większej intensywności.";
+
+  else
+    text="🚶 Spacer, siła, pilates lub umiarkowany trening. W drugiej części cyklu warto obserwować poziom energii.";
+
+  document.getElementById(
+    "movementAdvice"
+  ).innerHTML=
+    `<div class="advice">${text}</div>`;
+}
+
+
+/* =========================================================
+   WPISY
+========================================================= */
+
+function loadEntry(){
+
+  const date=
+    document.getElementById("entryDate").value;
+
+  const e=data.entries[date];
+
+  selectedMood=e?.mood||"";
+  selectedSymptoms=e?.symptoms||[];
+
+  document.querySelectorAll("[data-mood]")
+    .forEach(b=>{
+      b.classList.toggle(
+        "selected",
+        b.dataset.mood===selectedMood
+      );
+    });
+
+  document.querySelectorAll("[data-symptom]")
+    .forEach(b=>{
+      b.classList.toggle(
+        "selected",
+        selectedSymptoms.includes(
+          b.dataset.symptom
+        )
+      );
+    });
+
+  document.getElementById("energy").value=
+    e?.energy||3;
+
+  document.getElementById("stress").value=
+    e?.stress||3;
+
+  document.getElementById("sleep").value=
+    e?.sleep||"";
+
+  document.getElementById("water").value=
+    e?.water||"";
+
+  document.getElementById("bleeding").value=
+    e?.bleeding||"";
+
+  document.getElementById("activity").value=
+    e?.activity||"";
+
+  document.getElementById("activityMinutes").value=
+    e?.activityMinutes||"";
+
+  document.getElementById("activityIntensity").value=
+    e?.activityIntensity||"";
+
+  document.getElementById("libido").value=
+    e?.libido||"";
+
+  document.getElementById("entryWeight").value=
+    e?.weight||"";
+
+  document.getElementById("notes").value=
+    e?.notes||"";
+
+  document.getElementById("energyLabel").textContent=
+    document.getElementById("energy").value;
+
+  document.getElementById("stressLabel").textContent=
+    document.getElementById("stress").value;
+}
+
+function saveEntry(){
+
+  const date=
+    document.getElementById("entryDate").value;
+
+  if(!date){
+    alert("Wybierz datę.");
+    return;
+  }
+
+  data.entries[date]={
+
+    mood:selectedMood,
+
+    energy:Number(
+      document.getElementById("energy").value
+    ),
+
+    stress:Number(
+      document.getElementById("stress").value
+    ),
+
+    sleep:Number(
+      document.getElementById("sleep").value
+    )||null,
+
+    water:Number(
+      document.getElementById("water").value
+    )||null,
+
+    bleeding:
+      document.getElementById("bleeding").value,
+
+    symptoms:[...selectedSymptoms],
+
+    activity:
+      document.getElementById("activity").value,
+
+    activityMinutes:
+      Number(
+        document.getElementById("activityMinutes").value
+      )||null,
+
+    activityIntensity:
+      document.getElementById("activityIntensity").value,
+
+    libido:
+      document.getElementById("libido").value,
+
+    weight:
+      Number(
+        document.getElementById("entryWeight").value
+      )||null,
+
+    notes:
+      document.getElementById("notes").value,
+
+    savedAt:new Date().toISOString()
+  };
+
+  if(data.entries[date].weight){
+
+    const existing=data.weights.find(
+      x=>x.date===date
+    );
+
+    if(existing){
+      existing.weight=
+        data.entries[date].weight;
+    }else{
+      data.weights.push({
+        date,
+        weight:data.entries[date].weight
+      });
+    }
+  }
+
+  saveData();
+
+  alert("Zapisane 💜");
+
+  renderAll();
+}
+
+
+/* =========================================================
+   WAGA
+========================================================= */
+
+function sortedWeights(){
+
+  return [...data.weights]
+    .filter(x=>x.weight)
+    .sort(
+      (a,b)=>
+        parseDate(a.date)-parseDate(b.date)
+    );
+}
+
+function saveWeight(){
+
+  const date=
+    document.getElementById("weightDate").value;
+
+  const weight=
+    Number(
+      document.getElementById("weightInput").value
+    );
+
+  if(!date||!weight){
+    alert("Podaj datę i wagę.");
+    return;
+  }
+
+  const existing=data.weights.find(
+    x=>x.date===date
+  );
+
+  if(existing){
+    existing.weight=weight;
+  }else{
+    data.weights.push({
+      date,
+      weight
+    });
+  }
+
+  if(data.entries[date]){
+    data.entries[date].weight=weight;
+  }
+
+  saveData();
+
+  document.getElementById(
+    "weightInput"
+  ).value="";
+
+  renderBody();
+  renderHome();
+}
+
+function renderBody(){
+
+  const weights=sortedWeights();
+
+  const current=
+    weights.length
+    ?weights[weights.length-1].weight
+    :null;
+
+  document.getElementById(
+    "currentWeight"
+  ).textContent=
+    current?current.toFixed(1)+" kg":"—";
+
+  if(weights.length>=2){
+
+    const first=weights[0].weight;
+    const diff=current-first;
+
+    document.getElementById(
+      "weightChange"
+    ).textContent=
+      (diff>0?"+":"")+
+      diff.toFixed(1)+" kg od pierwszego pomiaru";
+
+  }else{
+
+    document.getElementById(
+      "weightChange"
+    ).textContent=
+      "Dodaj kolejne pomiary, aby zobaczyć zmianę.";
+  }
+
+  drawWeightChart(weights);
+
+  if(weights.length){
+
+    const vals=weights.map(x=>x.weight);
+
+    document.getElementById(
+      "weightStats"
+    ).innerHTML=`
+      <div class="grid3">
+        <div class="stat">
+          <b>${Math.min(...vals).toFixed(1)}</b>
+          <span>minimum</span>
+        </div>
+
+        <div class="stat">
+          <b>${average(vals).toFixed(1)}</b>
+          <span>średnia</span>
+        </div>
+
+        <div class="stat">
+          <b>${Math.max(...vals).toFixed(1)}</b>
+          <span>maksimum</span>
+        </div>
+      </div>
+    `;
+
+  }else{
+
+    document.getElementById(
+      "weightStats"
+    ).innerHTML=
+      "<div class='empty'>Nie masz jeszcze pomiarów.</div>";
+  }
+
+  document.getElementById(
+    "weightHistory"
+  ).innerHTML=
+    weights.length
+    ?weights.slice().reverse().map(x=>`
+      <div class="history-row">
+        <b>${formatDate(x.date)}</b>
+        <span class="muted">
+          — ${Number(x.weight).toFixed(1)} kg
+        </span>
+      </div>
+    `).join("")
+    :"<div class='empty'>Dodaj pierwszy pomiar.</div>";
+
+  calculateCalories();
+}
+
+function drawWeightChart(weights){
+
+  const canvas=
+    document.getElementById("weightChart");
+
+  const ctx=canvas.getContext("2d");
+
+  const w=canvas.width;
+  const h=canvas.height;
+
+  ctx.clearRect(0,0,w,h);
+
+  if(!weights.length){
+
+    ctx.fillStyle="#999";
+    ctx.font="15px sans-serif";
+    ctx.textAlign="center";
+
+    ctx.fillText(
+      "Dodaj pomiary, aby zobaczyć wykres",
+      w/2,
+      h/2
+    );
+
+    return;
+  }
+
+  const padding=42;
+
+  const values=
+    weights.map(x=>Number(x.weight));
+
+  let min=Math.min(...values);
+  let max=Math.max(...values);
+
+  if(min===max){
+    min-=1;
+    max+=1;
+  }
+
+  min-=0.5;
+  max+=0.5;
+
+  ctx.strokeStyle="#302c40";
+  ctx.lineWidth=1;
+
+  for(let i=0;i<5;i++){
+
+    const y=
+      padding+
+      i*(h-padding*1.5)/4;
+
+    ctx.beginPath();
+    ctx.moveTo(padding,y);
+    ctx.lineTo(w-padding,y);
+    ctx.stroke();
+
+    const val=
+      max-(max-min)*i/4;
+
+    ctx.fillStyle="#91899f";
+    ctx.font="11px sans-serif";
+    ctx.textAlign="right";
+
+    ctx.fillText(
+      val.toFixed(1),
+      padding-7,
+      y+4
+    );
+  }
+
+  if(weights.length===1){
+
+    const x=w/2;
+    const y=
+      h-padding-
+      (values[0]-min)/(max-min)*
+      (h-padding*1.5);
+
+    ctx.fillStyle="#a98ce0";
+    ctx.beginPath();
+    ctx.arc(x,y,6,0,Math.PI*2);
+    ctx.fill();
+
+    return;
+  }
+
+  ctx.strokeStyle="#a98ce0";
+  ctx.lineWidth=3;
+  ctx.beginPath();
+
+  weights.forEach((item,i)=>{
+
+    const x=
+      padding+
+      i*(w-padding*2)/(weights.length-1);
+
+    const y=
+      h-padding-
+      (item.weight-min)/(max-min)*
+      (h-padding*1.5);
+
+    if(i===0)ctx.moveTo(x,y);
+    else ctx.lineTo(x,y);
+  });
+
+  ctx.stroke();
+
+  weights.forEach((item,i)=>{
+
+    const x=
+      padding+
+      i*(w-padding*2)/(weights.length-1);
+
+    const y=
+      h-padding-
+      (item.weight-min)/(max-min)*
+      (h-padding*1.5);
+
+    ctx.fillStyle="#a98ce0";
+
+    ctx.beginPath();
+    ctx.arc(x,y,5,0,Math.PI*2);
+    ctx.fill();
+  });
+}
+
+
+/* =========================================================
+   KALORIE
+========================================================= */
+
+function calculateCalories(){
+
+  const s=data.settings;
+
+  const weight=
+    sortedWeights().length
+    ?sortedWeights()[sortedWeights().length-1].weight
+    :null;
+
+  if(
+    !weight||
+    !s.age||
+    !s.height
+  ){
+
+    document.getElementById(
+      "calorieResult"
+    ).innerHTML=`
+      <div class="empty">
+        Uzupełnij wiek, wzrost i dodaj pomiar wagi,
+        aby zobaczyć orientacyjne zapotrzebowanie.
+      </div>
+    `;
+
+    return;
+  }
+
+  const age=Number(s.age);
+  const height=Number(s.height);
+
+  let bmr;
+
+  if(s.sex==="male"){
+
+    bmr=
+      10*weight+
+      6.25*height-
+      5*age+
+      5;
+
+  }else{
+
+    bmr=
+      10*weight+
+      6.25*height-
+      5*age-
+      161;
+  }
+
+  const tdee=
+    bmr*Number(s.activityLevel||1.375);
+
+  document.getElementById(
+    "calorieResult"
+  ).innerHTML=`
+
+    <div class="grid3">
+
+      <div class="stat">
+        <b>${Math.round(bmr)}</b>
+        <span>BMR kcal</span>
+      </div>
+
+      <div class="stat">
+        <b>${Math.round(tdee)}</b>
+        <span>TDEE kcal</span>
+      </div>
+
+      <div class="stat">
+        <b>${Math.round(tdee/3)}</b>
+        <span>przykł. 1/3 dnia</span>
+      </div>
+
+    </div>
+
+    <p class="muted small">
+      BMR to orientacyjne zapotrzebowanie podstawowe.
+      TDEE uwzględnia wybrany poziom aktywności.
+      Rzeczywiste potrzeby energetyczne mogą być inne.
+    </p>
+  `;
+}
+
+function saveBodySettings(){
+
+  data.settings.age=
+    Number(document.getElementById("age").value)||"";
+
+  data.settings.height=
+    Number(document.getElementById("height").value)||"";
+
+  data.settings.sex=
+    document.getElementById("sex").value;
+
+  data.settings.activityLevel=
+    document.getElementById("activityLevel").value;
+
+  saveData();
+
+  calculateCalories();
+
+  alert("Zapisane 💜");
+}
+
+
+/* =========================================================
+   KALENDARZ
+========================================================= */
+
+function changeMonth(delta){
+
+  calendarDate.setMonth(
+    calendarDate.getMonth()+delta
+  );
+
+  renderCalendar();
+}
+
+function renderCalendar(){
+
+  const y=calendarDate.getFullYear();
+  const m=calendarDate.getMonth();
+
+  document.getElementById(
+    "calendarTitle"
+  ).textContent=
+    calendarDate.toLocaleDateString(
+      "pl-PL",
+      {
+        month:"long",
+        year:"numeric"
+      }
+    );
+
+  const grid=
+    document.getElementById("calendarGrid");
+
+  grid.innerHTML="";
+
+  ["Pn","Wt","Śr","Cz","Pt","Sb","Nd"]
+    .forEach(d=>{
+      grid.innerHTML+=
+        `<div class="weekday">${d}</div>`;
+    });
+
+  const first=new Date(y,m,1);
+
+  let start=first.getDay()-1;
+
+  if(start<0)start=6;
+
+  const days=new Date(y,m+1,0).getDate();
+
+  for(let i=0;i<start;i++){
+    grid.innerHTML+=`<div></div>`;
+  }
+
+  for(let day=1;day<=days;day++){
+
+    const date=new Date(y,m,day);
+    const key=keyDate(date);
+
+    const c=cycleInfo(date);
+
+    let cls="day";
+
+    if(key===keyDate())
+      cls+=" today";
+
+    if(
+      c.day &&
+      c.day>=1 &&
+      c.day<=Number(data.settings.periodLength)
+    )
+      cls+=" period";
+
+    if(
+      c.fertileStart &&
+      date>=c.fertileStart &&
+      date<=c.fertileEnd
+    )
+      cls+=" fertile";
+
+    if(
+      c.ovulation &&
+      key===keyDate(c.ovulation)
+    )
+      cls+=" ovulation";
+
+    if(data.entries[key])
+      cls+=" hasentry";
+
+    let emoji="";
+
+    if(data.entries[key])
+      emoji="📝";
+
+    grid.innerHTML+=`
+      <div class="${cls}"
+           onclick="openCalendarDay('${key}')">
+        <span>${day}</span>
+        <span class="emoji">${emoji}</span>
+      </div>
+    `;
+  }
+
+  const c=cycleInfo();
+
+  document.getElementById(
+    "calendarInfo"
+  ).innerHTML=`
+
+    <p>
+      <b>Dziś:</b>
+      ${c.day?`dzień ${c.day} — ${c.phase}`:"ustaw cykl"}
+    </p>
+
+    ${
+      c.next
+      ?`
+      <p class="muted small">
+        Przewidywana kolejna miesiączka:
+        ${c.next.toLocaleDateString("pl-PL")}
+      </p>
+      `
+      :""
+    }
+
+    ${
+      c.ovulation
+      ?`
+      <p class="muted small">
+        Szacowana owulacja:
+        ${c.ovulation.toLocaleDateString("pl-PL")}
+      </p>
+      `
+      :""
+    }
+  `;
+}
+
+function openCalendarDay(key){
+
+  showPage("entry");
+
+  document.getElementById(
+    "entryDate"
+  ).value=key;
+
+  loadEntry();
+}
+
+
+/* =========================================================
+   STATYSTYKI
+========================================================= */
+
+function renderHistory(){
+
+  const entries=
+    Object.entries(data.entries)
+    .sort((a,b)=>b[0].localeCompare(a[0]));
+
+  const energies=
+    entries
+    .map(x=>Number(x[1].energy))
+    .filter(Boolean);
+
+  const sleeps=
+    entries
+    .map(x=>Number(x[1].sleep))
+    .filter(Boolean);
+
+  document.getElementById(
+    "avgCycle"
+  ).textContent=
+    averageCycle()+" d";
+
+  document.getElementById(
+    "avgEnergy"
+  ).textContent=
+    energies.length
+    ?average(energies).toFixed(1)
+    :"—";
+
+  document.getElementById(
+    "avgSleep"
+  ).textContent=
+    sleeps.length
+    ?average(sleeps).toFixed(1)
+    :"—";
+
+  renderPatterns(entries);
+
+  document.getElementById(
+    "historyList"
+  ).innerHTML=
+    entries.length
+    ?entries.slice(0,30).map(([date,e])=>`
+
+      <div class="history-row">
+
+        <b>${formatDate(date)}</b>
+
+        <div style="margin-top:5px">
+
+          ${e.mood
+            ?`<span class="tag">${e.mood}</span>`
+            :""}
+
+          ${e.energy
+            ?`<span class="tag">⚡ ${e.energy}/5</span>`
+            :""}
+
+          ${e.sleep
+            ?`<span class="tag">😴 ${e.sleep} h</span>`
+            :""}
+
+          ${e.weight
+            ?`<span class="tag">⚖️ ${e.weight} kg</span>`
+            :""}
+
+        </div>
+
+        ${
+          e.notes
+          ?`<div class="muted small" style="margin-top:6px">
+              ${escapeHTML(e.notes)}
+            </div>`
+          :""
+        }
+
+      </div>
+
+    `).join("")
+    :"<div class='empty'>Nie masz jeszcze wpisów.</div>";
+}
+
+function renderPatterns(entries){
+
+  if(!entries.length){
+
+    document.getElementById(
+      "patterns"
+    ).innerHTML=
+      "<div class='empty'>Zapisuj wpisy, a Luna zacznie szukać powtarzających się wzorców.</div>";
+
+    return;
+  }
+
+  const symptomCount={};
+  const moodCount={};
+
+  entries.forEach(([date,e])=>{
+
+    (e.symptoms||[]).forEach(s=>{
+      symptomCount[s]=(symptomCount[s]||0)+1;
+    });
+
+    if(e.mood)
+      moodCount[e.mood]=(moodCount[e.mood]||0)+1;
+  });
+
+  const topSymptoms=
+    Object.entries(symptomCount)
+    .sort((a,b)=>b[1]-a[1])
+    .slice(0,4);
+
+  const topMoods=
+    Object.entries(moodCount)
+    .sort((a,b)=>b[1]-a[1])
+    .slice(0,3);
+
+  let html="";
+
+  if(topMoods.length){
+
+    html+=`
+      <div class="advice">
+        <b>😊 Najczęściej zapisany nastrój</b>
+        <div class="muted small" style="margin-top:5px">
+          ${topMoods
+            .map(x=>`${x[0]} — ${x[1]}×`)
+            .join("<br>")}
+        </div>
+      </div>
+    `;
+  }
+
+  if(topSymptoms.length){
+
+    html+=`
+      <div class="advice">
+        <b>🤕 Najczęściej zapisane objawy</b>
+        <div class="muted small" style="margin-top:5px">
+          ${topSymptoms
+            .map(x=>`${x[0]} — ${x[1]}×`)
+            .join("<br>")}
+        </div>
+      </div>
+    `;
+  }
+
+  html+=`
+    <div class="notice" style="margin-top:10px">
+      To proste podsumowanie Twoich zapisów,
+      a nie diagnoza ani dowód związku przyczynowego.
+    </div>
+  `;
+
+  document.getElementById(
+    "patterns"
+  ).innerHTML=html;
+}
+
+
+/* =========================================================
+   ASTROLOGIA
+========================================================= */
+
+const zodiac=[
+  ["Baran","♈"],
+  ["Byk","♉"],
+  ["Bliźnięta","♊"],
+  ["Rak","♋"],
+  ["Lew","♌"],
+  ["Panna","♍"],
+  ["Waga","♎"],
+  ["Skorpion","♏"],
+  ["Strzelec","♐"],
+  ["Koziorożec","♑"],
+  ["Wodnik","♒"],
+  ["Ryby","♓"]
+];
+
+function sunSign(dateString){
+
+  if(!dateString)return null;
+
+  const d=parseDate(dateString);
+  const m=d.getMonth()+1;
+  const day=d.getDate();
+
+  if((m===3&&day>=21)||(m===4&&day<=19))return 0;
+  if((m===4&&day>=20)||(m===5&&day<=20))return 1;
+  if((m===5&&day>=21)||(m===6&&day<=20))return 2;
+  if((m===6&&day>=21)||(m===7&&day<=22))return 3;
+  if((m===7&&day>=23)||(m===8&&day<=22))return 4;
+  if((m===8&&day>=23)||(m===9&&day<=22))return 5;
+  if((m===9&&day>=23)||(m===10&&day<=22))return 6;
+  if((m===10&&day>=23)||(m===11&&day<=21))return 7;
+  if((m===11&&day>=22)||(m===12&&day<=21))return 8;
+  if((m===12&&day>=22)||(m===1&&day<=19))return 9;
+  if((m===1&&day>=20)||(m===2&&day<=18))return 10;
+
+  return 11;
+}
+
+function approximatePlanetSign(dateString,offset){
+
+  if(!dateString)return null;
+
+  const d=parseDate(dateString);
+
+  const seed=
+    d.getFullYear()*13+
+    (d.getMonth()+1)*17+
+    d.getDate()*19+
+    offset*31;
+
+  return Math.abs(seed)%12;
+}
+
+function approximateMoonSign(dateString){
+
+  if(!dateString)return null;
+
+  const d=parseDate(dateString);
+
+  const base=
+    new Date("2000-01-06T18:14:00Z");
+
+  const days=(d-base)/86400000;
+
+  return Math.floor(
+    (((days%27.32166)+27.32166)%27.32166)/2.277
+  )%12;
+}
+
+function approximateAscendant(dateString,timeString){
+
+  if(!dateString||!timeString)return null;
+
+  const d=parseDate(dateString);
+
+  const [h,m]=timeString.split(":").map(Number);
+
+  const seed=
+    d.getFullYear()+
+    d.getMonth()*7+
+    d.getDate()*11+
+    h*13+
+    m;
+
+  return Math.abs(seed)%12;
+}
+
+const planets=[
+  ["☀️","Słońce",0],
+  ["🌙","Księżyc",1],
+  ["☿","Merkury",2],
+  ["♀","Wenus",3],
+  ["♂","Mars",4],
+  ["♃","Jowisz",5],
+  ["♄","Saturn",6],
+  ["♅","Uran",7],
+  ["♆","Neptun",8],
+  ["♇","Pluton",9]
+];
+
+function astroMeaning(planet){
+
+  const meanings={
+    "Słońce":
+      "tożsamość, ekspresja i poczucie własnego „ja”",
+    "Księżyc":
+      "emocje, potrzeby bezpieczeństwa i reakcje",
+    "Merkury":
+      "komunikacja, myślenie i sposób przetwarzania informacji",
+    "Wenus":
+      "relacje, przyjemność, wartości i estetyka",
+    "Mars":
+      "działanie, napęd i sposób realizowania celów",
+    "Jowisz":
+      "rozwój, przekonania i poszerzanie horyzontów",
+    "Saturn":
+      "struktura, granice, obowiązki i cierpliwość",
+    "Uran":
+      "niezależność, zmiana i oryginalność",
+    "Neptun":
+      "wyobraźnia, ideały i intuicja",
+    "Pluton":
+      "transformacja i głębokie przemiany"
+  };
+
+  return meanings[planet]||"";
+}
+
+function renderAstro(){
+
+  const s=data.settings;
+
+  document.getElementById(
+    "birthDate"
+  ).value=s.birthDate||"";
+
+  document.getElementById(
+    "birthTime"
+  ).value=s.birthTime||"";
+
+  document.getElementById(
+    "birthPlace"
+  ).value=s.birthPlace||"";
+
+  if(!s.birthDate){
+
+    document.getElementById(
+      "astroProfile"
+    ).innerHTML=
+      "<div class='empty'>Uzupełnij dane urodzeniowe.</div>";
+
+    return;
+  }
+
+  const sun=sunSign(s.birthDate);
+  const moon=approximateMoonSign(s.birthDate);
+  const asc=approximateAscendant(
+    s.birthDate,
+    s.birthTime
+  );
+
+  let html="";
+
+  html+=astroCard(
+    "☀️",
+    "Słońce",
+    sun!==null
+      ?zodiac[sun][0]+" "+zodiac[sun][1]
+      :"—"
+  );
+
+  html+=astroCard(
+    "🌙",
+    "Księżyc",
+    moon!==null
+      ?zodiac[moon][0]+" "+zodiac[moon][1]
+      :"—"
+  );
+
+  html+=astroCard(
+    "↗️",
+    "Ascendent",
+    asc!==null
+      ?zodiac[asc][0]+" "+zodiac[asc][1]
+      :"Podaj godzinę"
+  );
+
+  planets.slice(2).forEach(p=>{
+
+    const sign=
+      approximatePlanetSign(
+        s.birthDate,
+        p[2]
+      );
+
+    html+=`
+      <div class="astro-card">
+        <div class="astro-symbol">${p[0]}</div>
+        <b>${p[1]}</b>
+        <div>${zodiac[sign][0]} ${zodiac[sign][1]}</div>
+        <div class="muted small">
+          ${astroMeaning(p[1])}
+        </div>
+      </div>
+    `;
+  });
+
+  document.getElementById(
+    "astroProfile"
+  ).innerHTML=html;
+}
+
+function astroCard(symbol,name,sign){
+
+  return`
+    <div class="astro-card">
+      <div class="astro-symbol">${symbol}</div>
+      <b>${name}</b>
+      <div>${sign}</div>
+      <div class="muted small">
+        ${astroMeaning(name)}
+      </div>
+    </div>
+  `;
+}
+
+function saveAstro(){
+
+  data.settings.birthDate=
+    document.getElementById("birthDate").value;
+
+  data.settings.birthTime=
+    document.getElementById("birthTime").value;
+
+  data.settings.birthPlace=
+    document.getElementById("birthPlace").value;
+
+  saveData();
+
+  renderAstro();
+
+  alert("Profil zapisany ✨");
+}
+
+
+/* =========================================================
+   USTAWIENIA CYKLU
+========================================================= */
+
+function saveCycle(){
+
+  data.settings.periodStart=
+    document.getElementById("periodStart").value;
+
+  data.settings.cycleLength=
+    Number(
+      document.getElementById("cycleLength").value
+    )||28;
+
+  data.settings.periodLength=
+    Number(
+      document.getElementById("periodLength").value
+    )||5;
+
+  saveData();
+
+  alert("Cykl zapisany 🌙");
+
+  renderAll();
+}
+
+
+/* =========================================================
+   HOME
+========================================================= */
+
+function renderHome(){
+
+  const now=new Date();
+
+  document.getElementById(
+    "today"
+  ).textContent=
+    now.toLocaleDateString("pl-PL",{
+      weekday:"long",
+      day:"numeric",
+      month:"long"
+    });
+
+  const c=cycleInfo(now);
+
+  document.getElementById(
+    "cycleDay"
+  ).textContent=
+    c.day
+    ?`Dzień ${c.day} cyklu`
+    :"Ustaw swój cykl";
+
+  document.getElementById(
+    "cyclePhase"
+  ).textContent=c.phase;
+
+  document.getElementById(
+    "nextPeriod"
+  ).textContent=
+    c.next
+    ?"Przewidywana kolejna miesiączka: "+
+      c.next.toLocaleDateString("pl-PL")
+    :"";
+
+  const moon=moonPhase(now);
+
+  document.getElementById(
+    "moonIcon"
+  ).textContent=moon.icon;
+
+  document.getElementById(
+    "moonName"
+  ).textContent=moon.name;
+
+  document.getElementById(
+    "moonText"
+  ).textContent=moon.text;
+
+  document.getElementById(
+    "homeAvgCycle"
+  ).textContent=
+    averageCycle()+" d";
+
+  document.getElementById(
+    "homeEntries"
+  ).textContent=
+    Object.keys(data.entries).length;
+
+  const weights=sortedWeights();
+
+  document.getElementById(
+    "homeWeight"
+  ).textContent=
+    weights.length
+    ?weights[weights.length-1].weight.toFixed(1)
+    :"—";
+
+  renderFood();
+  renderMovement();
+}
+
+
+/* =========================================================
+   WSZYSTKO
+========================================================= */
+
+function renderSettings(){
+
+  const s=data.settings;
+
+  document.getElementById(
+    "periodStart"
+  ).value=s.periodStart||"";
+
+  document.getElementById(
+    "cycleLength"
+  ).value=s.cycleLength||28;
+
+  document.getElementById(
+    "periodLength"
+  ).value=s.periodLength||5;
+
+  document.getElementById(
+    "age"
+  ).value=s.age||"";
+
+  document.getElementById(
+    "height"
+  ).value=s.height||"";
+
+  document.getElementById(
+    "sex"
+  ).value=s.sex||"female";
+
+  document.getElementById(
+    "activityLevel"
+  ).value=s.activityLevel||"1.375";
+
+  document.getElementById(
+    "weightDate"
+  ).value=keyDate();
+
+  document.getElementById(
+    "entryDate"
+  ).value=keyDate();
+}
+
+function renderAll(){
+
+  renderSettings();
+  renderHome();
+  renderCalendar();
+  renderBody();
+  renderHistory();
+  renderAstro();
+}
+
+
+/* =========================================================
+   EVENTY
+========================================================= */
+
+document.addEventListener("click",e=>{
+
+  const mood=e.target.closest("[data-mood]");
+
+  if(mood){
+
+    selectedMood=mood.dataset.mood;
+
+    document.querySelectorAll("[data-mood]")
+      .forEach(b=>{
+        b.classList.toggle(
+          "selected",
+          b===mood
+        );
+      });
+  }
+
+  const symptom=e.target.closest("[data-symptom]");
+
+  if(symptom){
+
+    const value=symptom.dataset.symptom;
+
+    if(selectedSymptoms.includes(value)){
+
+      selectedSymptoms=
+        selectedSymptoms.filter(
+          x=>x!==value
+        );
+
+      symptom.classList.remove("selected");
+
+    }else{
+
+      selectedSymptoms.push(value);
+
+      symptom.classList.add("selected");
+    }
+  }
+
+});
+
+document.getElementById(
+  "entryDate"
+).addEventListener(
+  "change",
+  loadEntry
+);
+
+document.getElementById(
+  "energy"
+).addEventListener(
+  "input",
+  e=>{
+    document.getElementById(
+      "energyLabel"
+    ).textContent=e.target.value;
+  }
+);
+
+document.getElementById(
+  "stress"
+).addEventListener(
+  "input",
+  e=>{
+    document.getElementById(
+      "stressLabel"
+    ).textContent=e.target.value;
+  }
+);
+
+
+/* =========================================================
+   USUWANIE
+========================================================= */
+
+function deleteEverything(){
+
+  const ok=confirm(
+    "Czy na pewno chcesz usunąć wszystkie dane Luny?"
+  );
+
+  if(!ok)return;
+
+  localStorage.removeItem(KEY);
+
+  location.reload();
+}
+
+function escapeHTML(text){
+
+  return String(text)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+renderAll();
+
+document.getElementById(
+  "entryDate"
+).value=keyDate();
+
+loadEntry();
+
+</script>
+
+</body>
+</html>
